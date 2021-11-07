@@ -1,0 +1,7 @@
+.idea/
+.terraform*
+target/
+*.log
+*.out
+*.tfstate
+*.backup
