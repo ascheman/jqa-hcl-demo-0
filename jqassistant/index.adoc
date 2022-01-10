@@ -1,0 +1,14 @@
+= My AWSome Terraform Project
+
+Prove correctness of Terraform Infrastructure-as-Code (IaC) without even creating a single real resource.
+
+== Summary
+
+include::jQA:Summary[]
+
+[[default]]
+[role=group,includesConstraints="my-terraform-rules:*"]
+== Default Rules
+
+include::my-terraform-rules.adoc[]
+

@@ -20,6 +20,9 @@
                     <constraints>
                         <constraint>my-terraform-rules:*</constraint>
                     </constraints>
+                    <groups>
+                        <group>default</group>
+                    </groups>
                     <scanIncludes>
                         <scanInclude>
                             <path>.</path>
