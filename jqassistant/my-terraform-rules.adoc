@@ -2,7 +2,7 @@
 
 [[my-terraform-rules:LBs-must-use-free-EIPs-only]]
 .A Load Balancer needs free Elastic IPs - they must not be bound to a Network Interface
-[source,cypher,role=constraint,severity=minor]
+[source,cypher,role=constraint,severity=major]
 ----
 MATCH (aws_lbs:HCL {name:'aws_lb'})
         -[*]->()
