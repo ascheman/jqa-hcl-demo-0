@@ -1,0 +1,16 @@
+= jQAssistant HCL Demo (0)
+:author: Gerd Aschemann
+:email: gerd@aschemann.net
+
+:toc: left
+:icons: font
+
+This project demonstrates the usage of the https://jqassistant.org[jQAssistant] (jQA) https://github.com/ascheman/jqa-hcl-plugin[HCL Plugin].
+
+Checkout the `jqassistant` branch
+
+  git checkout jqassistant
+
+and follow the extended instructions in the README of this branch.
+
+TIP: If you understand German, there is a public video of https://aschemann.net/gerd/publications/talk-jqa-iac-jugh-2021/[my talk about jQA and the plugin] available on https://youtu.be/YJxAYwHzdtk?list=UUHCyp0ejixPTRAKUKMH9ZVg[Youtube].
