@@ -17,3 +17,15 @@ WHERE NOT (file:Configuration)
 RETURN DISTINCT file, eip
 ----
 
+[[my-terraform-rules:terraform-resources-report]]
+.Terraform Resources
+[source,cypher,role=concept,reportType="Groovy",reportProperties="scriptname=jqassistant/groovy/tst.groovy"]
+----
+MATCH (hclFile:HCL:File )
+    --> (resourceBlock:HCL:Block {name: 'resource'})
+    --> (resourceType:HCL:Block)
+    --> (resourceName:HCL:Block)
+RETURN hclFile.fileName as file,
+    resourceType.name as type,
+    resourceName.name as name
+----

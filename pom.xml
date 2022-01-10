@@ -17,6 +17,9 @@
                 <artifactId>jqassistant-maven-plugin</artifactId>
                 <version>1.11.0</version>
                 <configuration>
+                    <concepts>
+                        <concept>my-terraform-rules:*</concept>
+                    </concepts>
                     <constraints>
                         <constraint>my-terraform-rules:*</constraint>
                     </constraints>
@@ -35,6 +38,11 @@
                         <groupId>org.neo4j.client</groupId>
                         <artifactId>neo4j-browser</artifactId>
                         <version>4.4.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.aschemann.jqassistant.plugins</groupId>
+                        <artifactId>jqa-groovy-plugin</artifactId>
+                        <version>0.1.0-SNAPSHOT</version>
                     </dependency>
                     <dependency>
                         <groupId>net.aschemann.jqassistant.plugins</groupId>
