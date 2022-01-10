@@ -6,11 +6,76 @@
 :icons: font
 
 This project demonstrates the usage of the https://jqassistant.org[jQAssistant] (jQA) https://github.com/ascheman/jqa-hcl-plugin[HCL Plugin].
+It checks the given Terraform-based AWS code, in particular the file link:main.tf[] (see <<solution>> below).
+This file contains an error which can only be detected when the Terraform code is finally applied
+
+TIP: If you understand German, there is a public video of https://aschemann.net/gerd/publications/talk-jqa-iac-jugh-2021/[my talk about jQA and the plugin] available on https://youtu.be/YJxAYwHzdtk?list=UUHCyp0ejixPTRAKUKMH9ZVg[Youtube].
+
+== Pre-Requisites
+
+This project requires a valid Java (Java Runtime Environment) installation of version 8 or 11 (newer versions were not tested yet).
+
+== Usage
 
 Checkout the `jqassistant` branch
 
   git checkout jqassistant
 
-and follow the extended instructions in the README of this branch.
+and run jQAssistant
 
-TIP: If you understand German, there is a public video of https://aschemann.net/gerd/publications/talk-jqa-iac-jugh-2021/[my talk about jQA and the plugin] available on https://youtu.be/YJxAYwHzdtk?list=UUHCyp0ejixPTRAKUKMH9ZVg[Youtube].
+  ./mvnw clean jqassistant:scan jqassistant:analyze
+
+You should see an error message like this
+
+[source, shell]
+.Error message breaking the build on
+----
+[ERROR] --[ Constraint Violation ]-----------------------------------------
+[ERROR] Constraint: my-terraform-rules:LBs-must-use-free-EIPs-only
+[ERROR] Severity: MAJOR
+[ERROR] Number of rows: 1
+[ERROR] A Load Balancer needs free Elastic IPs - they must not be bound to a Network Interface
+[ERROR]   file=main.tf, eip=identifier:resource, line:4, column:25, name:this, position:108
+[ERROR] -------------------------------------------------------------------
+[ERROR]
+----
+
+And find some nice report in file link:target/jqassistant/report/asciidoc/index.html[] (*Note:* This link will only work after execution of the Maven plugin).
+
+== Deeper investigation of the object graph
+
+You may start the embedded https://neo4j.org[Neo4j] database server
+
+  ./mvnw jqssistant:server # Do not use clean here!
+
+and open the contents in your Web-browser: http://localhost:7474 (*Note:* This link will only work when you have started the embedded database server).
+
+== Solution
+
+If you want to fix the problem, remove the following lines from link:main.tf[]:
+
+[source, diff]
+----
+diff --git a/main.tf b/main.tf
+index c92420f..a751fd5 100644
+--- a/main.tf
++++ b/main.tf
+@@ -1,9 +1,4 @@
+-resource "aws_network_interface" "this" {
+-  subnet_id = local.default_subnet_id
+-}
+-
+ resource "aws_eip" "this" {
+-  network_interface = aws_network_interface.this.id
+ }
+
+ resource "aws_lb" "this" {
+----
+
+NOTE: With older versions of the AWS Terraform provider the problem may even be only detected at runtime and is very hard to find then.
+
+Running
+
+ ./mvnw clean jqassistant:scan jqassistant:analyze
+
+again should not show the error any more, but still provide you with a report about the used resources.
