@@ -15,7 +15,7 @@
             <plugin>
                 <groupId>com.buschmais.jqassistant</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>1.11.0</version>
+                <version>1.11.1</version>
                 <configuration>
                     <concepts>
                         <concept>my-terraform-rules:*</concept>
