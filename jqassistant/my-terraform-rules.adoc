@@ -4,28 +4,25 @@
 .A Load Balancer needs free Elastic IPs - they must not be bound to a Network Interface
 [source,cypher,role=constraint,severity=major]
 ----
-MATCH (aws_lbs:HCL {name:'aws_lb'})
-        -[*]->()
-        -[:REFERS_TO]-> (id {identifier: 'id'})
-        <-[:HAS_ATTRIBUTE]- (eip:HCL)
-        <-[:HAS_BLOCK]- (aws_eips:HCL {name: 'aws_eip'})
-WITH eip
-MATCH (file:HCL:File)
-        -[*]-> (eip)
-        -[:HAS_ATTRIBUTE]-> (network_interface:HCL {identifier: 'network_interface'})
-WHERE NOT (file:Configuration)
-RETURN DISTINCT file, eip
+MATCH (aws_lbs:Terraform:Resource {type:'aws_lb'})
+        -[:USES]->(aws_eip:HCL {type: 'aws_eip'})
+WITH aws_eip
+MATCH (eip_file:Terraform:File)
+        -[*]-> (aws_eip)
+        -[:USES]-> (aws_ni:Terraform:Resource {type: 'aws_network_interface'})
+        <-[*]-(ni_file:Terraform:File)
+WHERE NOT (eip_file:Configuration) AND NOT (ni_file:Configuration)
+RETURN DISTINCT eip_file, aws_eip, ni_file, aws_ni
 ----
 
 [[my-terraform-rules:terraform-resources-report]]
 .Terraform Resources
 [source,cypher,role=concept,reportType="Groovy",reportProperties="scriptname=jqassistant/groovy/tst.groovy"]
 ----
-MATCH (hclFile:HCL:File )
-    --> (resourceBlock:HCL:Block {name: 'resource'})
-    --> (resourceType:HCL:Block)
-    --> (resourceName:HCL:Block)
-RETURN hclFile.fileName as file,
-    resourceType.name as type,
-    resourceName.name as name
+MATCH (file:Terraform:File )
+    -[*]-> (resource:Terraform:Resource)
+RETURN DISTINCT file.fileName AS file,
+    resource.type AS type,
+    resource.name AS name
+ORDER BY file, type
 ----
