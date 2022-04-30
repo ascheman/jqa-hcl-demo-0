@@ -63,4 +63,33 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>reuse</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.buschmais.jqassistant</groupId>
+                        <artifactId>jqassistant-maven-plugin</artifactId>
+                        <configuration>
+                            <store>
+                                <uri>bolt://localhost:7687</uri>
+                            </store>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jqa-clean</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>reset</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
