@@ -17,7 +17,7 @@ RETURN DISTINCT eip_file, aws_eip, ni_file, aws_ni
 
 [[my-terraform-rules:terraform-resources-report]]
 .Terraform Resources
-[source,cypher,role=concept,reportType="Groovy",reportProperties="scriptname=jqassistant/groovy/tst.groovy",requiresConcepts="terraform:File2Resource"]
+[source,cypher,role=concept,reportType="Groovy",reportProperties="scriptname=jqassistant/groovy/terraformResourcesReport.groovy",requiresConcepts="terraform:File2Resource"]
 ----
 MATCH (file:Terraform:File )
     -[:DEFINES]-> (resource:Terraform:Resource)

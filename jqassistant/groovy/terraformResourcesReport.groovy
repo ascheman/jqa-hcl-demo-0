@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-File reportFile = new File(reportDirectory, "report.adoc")
+File reportFile = new File(reportDirectory, "terraform-resources.adoc")
 logger.info ("Creating report file '{}'", reportFile)
 
 reportFile.write """= ${concept.id}
