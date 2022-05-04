@@ -8,11 +8,11 @@ reportFile.write """= ${concept.id}
 ${concept.description}
 
 |===
-| ${result?.columnNames.join(' | ')}
+| ${result?.columnNames?.join(' | ')}
 
 """
 
-result?.rows.each {row ->
+result?.rows?.each {row ->
     row.each { key, value ->
         reportFile << "| ${value} "
     }
