@@ -1,3 +1,8 @@
+:toc: left
+ifndef::base-dir[]
+:base-dir: ..
+endif::base-dir[]
+
 = My AWSome Terraform Project
 
 Prove correctness of Terraform Infrastructure-as-Code (IaC) without even creating a single real resource.
@@ -11,4 +16,10 @@ include::jQA:Summary[]
 == Default Rules
 
 include::my-terraform-rules.adoc[]
+
+== Reports
+
+:leveloffset: +2
+
+include::{base-dir}/target/jqassistant/report/groovy-reports/terraform-resources.adoc[]
 
