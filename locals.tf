@@ -1,3 +1,3 @@
 locals {
-  default_subnet_id = tolist(data.aws_subnet_ids.this.ids)[0]
+  default_subnet_id = tolist(data.aws_subnets.this.ids)[0]
 }
