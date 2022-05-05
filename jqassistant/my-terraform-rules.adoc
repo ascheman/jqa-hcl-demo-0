@@ -2,7 +2,7 @@
 
 [[my-terraform-rules:LBs-must-use-free-EIPs-only]]
 .A Load Balancer needs free Elastic IPs - they must not be bound to a Network Interface
-[source,cypher,role=constraint,severity=major]
+[source,cypher,role=constraint,severity=major,requiresConcepts="terraform:ResourceUsageRelations"]
 ----
 MATCH (aws_lbs:Terraform:Resource {type:'aws_lb'})
         -[:USES]->(aws_eip:HCL {type: 'aws_eip'})
@@ -25,4 +25,15 @@ RETURN DISTINCT file.fileName AS file,
     resource.type AS type,
     resource.name AS name
 ORDER BY file, type
+----
+
+[[my-terraform-rules:usage-report]]
+.Terraform Resource Relationships
+[source,cypher,role=concept,reportType="Groovy",reportProperties="scriptname=jqassistant/groovy/terraformUsage.groovy",requiresConcepts="terraform:ResourceUsageRelations"]
+----
+MATCH (src:Terraform:Resource )
+    -[:USES]-> (tgt:Terraform:Resource)
+SET src.displayname = src.type + "." + src.name
+SET tgt.displayname = tgt.type + "." + tgt.name
+RETURN src.displayname AS src, tgt.displayname AS tgt
 ----
