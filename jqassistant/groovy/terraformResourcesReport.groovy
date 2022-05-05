@@ -3,9 +3,9 @@
 File reportFile = new File(reportDirectory, "terraform-resources.adoc")
 logger.info ("Creating report file '{}'", reportFile)
 
-reportFile.write """= ${concept.id}
+reportFile.write """= ${concept.description} 
 
-${concept.description}
+Powered by `${concept.id}`
 
 |===
 | ${result?.columnNames?.join(' | ')}
